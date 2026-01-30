@@ -2,7 +2,7 @@ from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from app.services.responder import generate_response
+from app.services.responder import generate_response_and_category
 from app.utils.file_reader import read_file
 
 app = FastAPI(title="EmailIA API")
@@ -28,7 +28,7 @@ async def process_email(
 
     content = text if text else await read_file(file)
 
-    from app.services.responder import generate_response_and_category
+    
 
     result = generate_response_and_category(content)
 
