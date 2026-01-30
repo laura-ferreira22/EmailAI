@@ -1,6 +1,6 @@
 # 📧 Email AI
 
-EmailIA é uma aplicação web que utiliza **Inteligência Artificial** para auxiliar na **geração e aprimoramento de emails** de forma rápida, clara e profissional.
+Email AI é uma aplicação web que utiliza **Inteligência Artificial** para auxiliar na **geração e aprimoramento de emails** de forma rápida, clara e profissional.
 
 O projeto é dividido em **frontend (Vue + Vite)** e **backend (FastAPI)**, com arquitetura desacoplada e pronta para deploy em nuvem.
 
@@ -44,7 +44,7 @@ O projeto é dividido em **frontend (Vue + Vite)** e **backend (FastAPI)**, com 
 ## 📂 Estrutura do Projeto
 
 ```bash
-EMAILIA/
+EMAILAI/
 │
 ├── back-end/
 │   ├── app/
