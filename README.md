@@ -1,6 +1,6 @@
-# 📧 Email AI
+# 📧 EmailIA
 
-Email AI é uma aplicação web que utiliza **Inteligência Artificial** para auxiliar na **geração e aprimoramento de emails** de forma rápida, clara e profissional.
+EmailIA é uma aplicação web que utiliza **Inteligência Artificial** para auxiliar na **geração e aprimoramento de emails** de forma rápida, clara e profissional.
 
 O projeto é dividido em **frontend (Vue + Vite)** e **backend (FastAPI)**, com arquitetura desacoplada e pronta para deploy em nuvem.
 
@@ -44,7 +44,7 @@ O projeto é dividido em **frontend (Vue + Vite)** e **backend (FastAPI)**, com 
 ## 📂 Estrutura do Projeto
 
 ```bash
-EMAILAI/
+EMAILIA/
 │
 ├── back-end/
 │   ├── app/
@@ -144,5 +144,68 @@ npm install
 ### 2️⃣ Variável de ambiente
 
 ```env
-VITE_API_URL=https://sua-api-n
+VITE_API_URL=https://sua-api-no-render.onrender.com
 ```
+
+### 3️⃣ Rodar localmente
+
+```bash
+npm run dev
+```
+
+### 4️⃣ Build para produção
+
+```bash
+npm run build
+```
+
+---
+
+## 📡 Integração Frontend + Backend
+
+O frontend consome a API através de:
+
+```js
+fetch(`${import.meta.env.VITE_API_URL}/generate-email`)
+```
+
+O backend retorna o texto gerado pela IA em formato JSON.
+
+---
+
+## 🧪 Documentação da API
+
+A documentação automática está disponível em:
+
+```
+/api/docs
+```
+
+(Gerada pelo Swagger / OpenAPI)
+
+---
+
+## 📌 Próximas Melhorias
+
+* Autenticação de usuários
+* Histórico de emails gerados
+* Escolha de idioma
+* Templates prontos
+* Dark mode
+
+---
+
+## 👩‍💻 Autoria
+
+Projeto desenvolvido por **Laura Ferreira**
+Estudante de Ciência da Computação
+
+---
+
+## 📝 Licença
+
+Este projeto é de uso educacional e para portfólio.
+
+---
+
+💙 Se esse projeto te ajudou, deixa uma ⭐ no repositório!
