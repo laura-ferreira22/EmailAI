@@ -185,16 +185,6 @@ A documentação automática está disponível em:
 
 ---
 
-## 📌 Próximas Melhorias
-
-* Autenticação de usuários
-* Histórico de emails gerados
-* Escolha de idioma
-* Templates prontos
-* Dark mode
-
----
-
 ## 👩‍💻 Autoria
 
 Projeto desenvolvido por **Laura Ferreira**
