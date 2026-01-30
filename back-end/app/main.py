@@ -5,13 +5,15 @@ from app.services.classifier import classify_email
 from app.services.responder import generate_response
 from app.utils.file_reader import read_file
 
-
 app = FastAPI(title="EmailIA API")
 
-# CORS (liberar para o front depois)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # depois troque pela URL do Vercel
+    allow_origins=[
+        "http://localhost:5173",   
+        "https://emailai.vercel.app"  
+    ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
