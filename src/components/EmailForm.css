@@ -1,0 +1,170 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+
+body {
+  background: #f4f6fb;
+  color: #1f2937;
+}
+
+.navbar {
+  width: 100%;
+  background: #111827;
+  padding: 16px 32px;
+}
+
+.nav-content {
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.nav-subtitle {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+/* CONTAINER */
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* CARD */
+.card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 720px;
+  padding: 32px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+
+.header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+
+.input-section,
+.upload-section {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  padding: 12px;
+  font-size: 14px;
+  resize: vertical;
+  transition: border 0.2s;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+
+input[type="file"] {
+  font-size: 14px;
+}
+
+
+.actions {
+  margin-top: 24px;
+}
+
+.primary-button {
+  width: 100%;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.primary-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  margin-top: 16px;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+.result {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.produtivo {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.improdutivo {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.result h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.response {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+}
