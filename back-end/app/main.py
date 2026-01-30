@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.services.classifier import classify_email
+
 from app.services.responder import generate_response
 from app.utils.file_reader import read_file
 
