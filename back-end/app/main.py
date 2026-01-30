@@ -28,10 +28,8 @@ async def process_email(
 
     content = text if text else await read_file(file)
 
-    categoria = classify_email(content)
-    resposta = generate_response(content, categoria)
+    from app.services.responder import generate_response_and_category
 
-    return {
-        "categoria": categoria,
-        "resposta": resposta
-    }
+    result = generate_response_and_category(content)
+
+    return result
