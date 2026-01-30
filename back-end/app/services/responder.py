@@ -1,33 +1,36 @@
 import os
 from openai import OpenAI
 
-def get_openai_client():
+def generate_response(text: str, categoria: str) -> str:
     api_key = os.getenv("OPENAI_API_KEY")
 
     if not api_key:
-        raise RuntimeError("OPENAI_API_KEY não configurada")
+        return "Recebemos seu email e em breve retornaremos."
 
-    return OpenAI(api_key=api_key)
+    try:
+        client = OpenAI(api_key=api_key)
 
+        prompt = f"""
+Você é um assistente corporativo de uma empresa financeira.
 
-def generate_response(email_text: str):
-    client = get_openai_client()
+Classificação do email: {categoria}
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {
-                "role": "system",
-                "content": "Você é um assistente que classifica emails como Produtivo ou Improdutivo e sugere uma resposta educada."
-            },
-            {
-                "role": "user",
-                "content": email_text
-            }
-        ]
-    )
+Email recebido:
+{text}
 
-    return {
-        "categoria": "Produtivo",  
-        "resposta": response.choices[0].message.content
-    }
+Gere uma resposta educada, clara e profissional.
+"""
+
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.4
+        )
+
+        return response.choices[0].message.content
+
+    except Exception as e:
+        print("Erro OpenAI:", e)
+        return "Recebemos seu email e em breve retornaremos."
