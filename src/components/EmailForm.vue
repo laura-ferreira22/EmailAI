@@ -44,6 +44,7 @@ const submitEmail = async () => {
     loading.value = false;
   }
 };
+console.log("API URL:", import.meta.env.VITE_API_URL);
 </script>
 
 <template>
@@ -119,12 +120,5 @@ const submitEmail = async () => {
     </div>
   </div>
 
-      <script setup>
-    import { ref } from "vue";
-
-    console.log("API URL:", import.meta.env.VITE_API_URL);
-
-
-    </script>
 </template>
 
