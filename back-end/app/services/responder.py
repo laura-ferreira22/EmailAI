@@ -8,7 +8,7 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 HEADERS = {
     "Authorization": f"Bearer {OPENROUTER_API_KEY}",
     "Content-Type": "application/json",
-    "HTTP-Referer": "https://emailia.app", 
+    "HTTP-Referer": "https://emailia.app",
     "X-Title": "EmailIA"
 }
 
@@ -21,24 +21,18 @@ def classify_and_generate_response(text: str) -> dict:
 
     try:
         prompt = f"""
-Você é um assistente corporativo.
+Você é um assistente corporativo de uma empresa do setor financeiro.
 
-Analise o email abaixo e:
-1. Classifique como APENAS uma das opções:
-   - Produtivo (requer ação)
-   - Improdutivo (não requer ação)
+Analise o email abaixo.
 
-2. Gere uma resposta curta, educada e profissional,
-adequada à classificação.
+Primeiro, diga APENAS uma palavra na primeira linha:
+Produtivo ou Improdutivo
+
+Depois, em um novo parágrafo, escreva apenas a resposta profissional
+ao email, sem títulos, sem JSON, sem explicações extras.
 
 Email:
 {text}
-
-Retorne no formato JSON:
-{{
-  "categoria": "Produtivo ou Improdutivo",
-  "resposta": "texto da resposta"
-}}
 """
 
         payload = {
@@ -60,20 +54,22 @@ Retorne no formato JSON:
         response.raise_for_status()
         data = response.json()
 
-        content = data["choices"][0]["message"]["content"]
+        content = data["choices"][0]["message"]["content"].strip()
 
-        
-        import json
-        try:
-            result = json.loads(content)
-            return result
-        except:
-           
-            categoria = "Produtivo" if "Produtivo" in content else "Improdutivo"
-            return {
-                "categoria": categoria,
-                "resposta": content
-            }
+        # ---- PROCESSAMENTO DA RESPOSTA ----
+        lines = content.split("\n", 1)
+
+        categoria = lines[0].strip()
+
+        if categoria not in ["Produtivo", "Improdutivo"]:
+            categoria = "Improdutivo"
+
+        resposta = lines[1].strip() if len(lines) > 1 else ""
+
+        return {
+            "categoria": categoria,
+            "resposta": resposta
+        }
 
     except Exception as e:
         print("Erro OpenRouter:", e)
