@@ -21,19 +21,25 @@ def classify_and_generate_response(text: str) -> dict:
 
     try:
         prompt = f"""
-Você é um assistente corporativo de uma empresa do setor financeiro.
+    Você é um assistente corporativo de uma empresa do setor financeiro.
 
-Analise o email abaixo.
+    Analise o email abaixo e classifique de acordo com o critério:
 
-Primeiro, diga APENAS uma palavra na primeira linha:
-Produtivo ou Improdutivo
+    - Produtivo: o email exige alguma ação, resposta, análise, suporte,
+    acompanhamento, resolução de problema ou possui urgência.
+    - Improdutivo: o email não exige ação, sendo apenas agradecimento,
+    confirmação, felicitação ou mensagem genérica.
 
-Depois, em um novo parágrafo, escreva apenas a resposta profissional
-ao email, sem títulos, sem JSON, sem explicações extras.
+    Primeira linha: escreva APENAS a palavra
+    Produtivo ou Improdutivo
 
-Email:
-{text}
-"""
+    Depois, em um novo parágrafo, escreva apenas a resposta profissional
+    adequada ao email, sem títulos, sem JSON, sem explicações extras.
+
+    Email:
+    {text}
+    """
+
 
         payload = {
             "model": "mistralai/mistral-7b-instruct",

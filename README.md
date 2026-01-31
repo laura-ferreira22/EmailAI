@@ -1,22 +1,62 @@
 # 📧 EmailIA
 
-EmailIA é uma aplicação web que utiliza **Inteligência Artificial** para auxiliar na **geração e aprimoramento de emails** de forma rápida, clara e profissional.
+EmailIA é uma aplicação web que utiliza **Inteligência Artificial** para **analisar emails automaticamente**, **classificá-los como Produtivos ou Improdutivos** e **gerar respostas profissionais sugeridas**, auxiliando equipes a lidar com grandes volumes de mensagens de forma eficiente.
 
-O projeto é dividido em **frontend (Vue + Vite)** e **backend (FastAPI)**, com arquitetura desacoplada e pronta para deploy em nuvem.
+O projeto foi desenvolvido com **frontend e backend desacoplados**, simulando um cenário real de produto corporativo, com deploy em nuvem e integração com um provedor externo de modelos de linguagem.
 
 ---
 
 ## 🚀 Funcionalidades
 
-* ✨ Geração automática de emails com IA
-* 🎯 Ajuste de tom (formal, informal, profissional, etc.)
-* 🧠 Integração com API de IA
-* 🖥️ Interface moderna e responsiva
-* 📡 Backend REST com documentação Swagger
+* 📩 Análise semântica do conteúdo de emails
+* 🧠 Classificação automática em:
+
+  * **Produtivo** (requer ação, resposta ou acompanhamento)
+  * **Improdutivo** (não requer ação imediata)
+* ✍️ Geração automática de respostas profissionais
+* 📎 Suporte a texto digitado e upload de arquivos (.txt e .pdf)
+* 🌐 API REST documentada com Swagger
 
 ---
 
-## 🧱 Tecnologias Utilizadas
+## 🧱 Arquitetura da Solução
+
+```
+Frontend (Vue 3)
+        ↓
+Backend (FastAPI)
+        ↓
+OpenRouter API
+        ↓
+Modelo de Linguagem (LLM)
+```
+
+A aplicação utiliza o **OpenRouter** como provedor de IA, permitindo acesso a diferentes modelos de linguagem de forma flexível, sem dependência de um único fornecedor.
+
+---
+
+## 🧠 Inteligência Artificial
+
+### Provedor de IA
+
+* **OpenRouter** ([https://openrouter.ai](https://openrouter.ai))
+
+### Modelo Utilizado
+
+* `mistralai/mistral-7b-instruct`
+
+### Estratégia
+
+* Uma única chamada ao modelo realiza:
+
+  * a **classificação semântica** do email (Produtivo ou Improdutivo)
+  * a **geração da resposta automática**
+
+O backend controla o formato da resposta, garantindo que a IA **não retorne JSON**, apenas texto estruturado, aumentando a robustez da aplicação.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
 
 ### Frontend
 
@@ -24,54 +64,21 @@ O projeto é dividido em **frontend (Vue + Vite)** e **backend (FastAPI)**, com 
 * Vite
 * HTML5
 * CSS3
-* Fontes Google (Montserrat)
+* Google Fonts (Montserrat)
 
 ### Backend
 
-* Python 3.10+
+* Python 3
 * FastAPI
 * Uvicorn
-* Python-dotenv
-* API de IA (via variável de ambiente)
+* Requests
+* PyPDF2
 
-### Deploy
+### Infraestrutura
 
 * Backend: **Render**
-* Frontend: **Vercel / Netlify**
-
----
-
-## 📂 Estrutura do Projeto
-
-```bash
-EMAILIA/
-│
-├── back-end/
-│   ├── app/
-│   │   ├── services/
-│   │   │   └── email_service.py
-│   │   ├── utils/
-│   │   │   └── openai_client.py
-│   │   └── main.py
-│   └── requirements.txt
-│
-├── public/
-│
-├── src/
-│   ├── assets/
-│   ├── components/
-│   │   ├── icons/
-│   │   ├── EmailForm.vue
-│   │   ├── EmailForm.html
-│   │   └── EmailForm.css
-│   ├── App.vue
-│   └── main.js
-│
-├── index.html
-├── package.json
-├── vite.config.js
-└── README.md
-```
+* Frontend: **Vercel**
+* IA: **OpenRouter API**
 
 ---
 
@@ -81,107 +88,109 @@ EMAILIA/
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\\Scripts\\activate     # Windows
+venv\Scripts\activate  # Windows
 ```
 
 ### 2️⃣ Instalar dependências
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ### 3️⃣ Variáveis de ambiente
 
-Crie um arquivo `.env` dentro da pasta `back-end`:
+Crie um arquivo `.env` na pasta `back-end`:
 
 ```env
-OPENAI_API_KEY=sua_chave_aqui
+OPENROUTER_API_KEY=sua_chave_openrouter
 ```
 
 ### 4️⃣ Rodar o servidor
 
 ```bash
-uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload
 ```
 
 Acesse:
-👉 [http://localhost:8000/docs](http://localhost:8000/docs)
+
+```
+http://localhost:8000/docs
+```
 
 ---
 
-## ☁️ Deploy do Backend no Render
+## ☁️ Deploy do Backend (Render)
 
-* Root Directory: `back-end`
-* Build Command:
+* **Root Directory:** `back-end`
+* **Build Command:**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-* Start Command:
+* **Start Command:**
 
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port $PORT
 ```
 
-* Variável de ambiente:
+* **Environment Variables:**
 
 ```
-OPENAI_API_KEY
+OPENROUTER_API_KEY
 ```
 
 ---
 
 ## 🎨 Configuração do Frontend
 
-### 1️⃣ Instalar dependências
-
-```bash
-npm install
-```
-
-### 2️⃣ Variável de ambiente
+### Variável de ambiente
 
 ```env
 VITE_API_URL=https://sua-api-no-render.onrender.com
 ```
 
-### 3️⃣ Rodar localmente
+### Rodar localmente
 
 ```bash
+npm install
 npm run dev
 ```
 
-### 4️⃣ Build para produção
+---
 
-```bash
-npm run build
+## 📡 Integração Frontend ↔ Backend
+
+O frontend envia o conteúdo do email via `multipart/form-data` para o endpoint:
+
+```
+POST /process-email
+```
+
+Resposta esperada:
+
+```json
+{
+  "categoria": "Produtivo",
+  "resposta": "Texto gerado automaticamente pela IA"
+}
 ```
 
 ---
 
-## 📡 Integração Frontend + Backend
+## 🧪 Exemplos de Teste
 
-O frontend consome a API através de:
-
-```js
-fetch(`${import.meta.env.VITE_API_URL}/generate-email`)
-```
-
-O backend retorna o texto gerado pela IA em formato JSON.
-
----
-
-## 🧪 Documentação da API
-
-A documentação automática está disponível em:
+### Email Produtivo
 
 ```
-/api/docs
+Olá, estou com erro no sistema e preciso de ajuda.
 ```
 
-(Gerada pelo Swagger / OpenAPI)
+### Email Improdutivo
+
+```
+Obrigado pelo excelente atendimento!
+```
 
 ---
 
@@ -194,8 +203,4 @@ Estudante de Ciência da Computação
 
 ## 📝 Licença
 
-Este projeto é de uso educacional e para portfólio.
-
----
-
-💙 Se esse projeto te ajudou, deixa uma ⭐ no repositório!
+Projeto desenvolvido para fins educacionais e de portfólio.
