@@ -2,10 +2,10 @@ from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from app.services.responder import generate_response_and_category
+from app.services.responder import classify_and_generate_response
 from app.utils.file_reader import read_file
 
-app = FastAPI(title="EmailIA API")
+app = FastAPI(title="EmailAI API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,6 +30,6 @@ async def process_email(
 
     
 
-    result = generate_response_and_category(content)
-
+    result = classify_and_generate_response(content)
     return result
+

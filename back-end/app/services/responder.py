@@ -1,61 +1,89 @@
 import os
-from openai import OpenAI
+import requests
 
-def generate_response_and_category(text: str) -> dict:
-    api_key = os.getenv("OPENAI_API_KEY")
+HF_TOKEN = os.getenv("HF_API_TOKEN")
 
-    if not api_key:
-        return {
-            "categoria": "Improdutivo",
-            "resposta": "Recebemos seu email e em breve retornaremos."
+HEADERS = {
+    "Authorization": f"Bearer {HF_TOKEN}"
+}
+
+CLASSIFIER_URL = (
+    "https://api-inference.huggingface.co/models/facebook/bart-large-mnli"
+)
+
+GENERATOR_URL = (
+    "https://api-inference.huggingface.co/models/google/flan-t5-base"
+)
+
+
+def classify_and_generate_response(text: str) -> dict:
+    try:
+        
+        classification_payload = {
+            "inputs": text,
+            "parameters": {
+                "candidate_labels": ["Produtivo", "Improdutivo"]
+            }
         }
 
-    try:
-        client = OpenAI(api_key=api_key)
-
-        prompt = f"""
-Você é um assistente corporativo de uma empresa do setor financeiro.
-
-Analise o email abaixo e:
-1. Classifique como APENAS uma das opções:
-   - Produtivo (requer ação, resposta ou acompanhamento)
-   - Improdutivo (não requer ação imediata)
-
-2. Gere uma resposta curta, educada e profissional,
-adequada à classificação.
-
-Email:
-{text}
-
-Retorne exatamente no seguinte formato JSON:
-{{
-  "categoria": "Produtivo ou Improdutivo",
-  "resposta": "texto da resposta"
-}}
-"""
-
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.3
+        class_response = requests.post(
+            CLASSIFIER_URL,
+            headers=HEADERS,
+            json=classification_payload,
+            timeout=20
         )
+        class_response.raise_for_status()
+        class_data = class_response.json()
 
-        content = response.choices[0].message.content
+        categoria = class_data["labels"][0]
 
-        # segurança mínima
-        if "Produtivo" in content:
-            categoria = "Produtivo"
+       
+        if categoria == "Produtivo":
+            prompt = (
+                "Você é um assistente corporativo. "
+                "Gere uma resposta profissional e objetiva para o email abaixo, "
+                "indicando que a solicitação será analisada:\n\n"
+                f"{text}"
+            )
         else:
-            categoria = "Improdutivo"
+            prompt = (
+                "Você é um assistente corporativo. "
+                "Gere uma resposta educada e curta para o email abaixo, "
+                "sem indicar necessidade de ação:\n\n"
+                f"{text}"
+            )
+
+        gen_payload = {
+            "inputs": prompt,
+            "parameters": {
+                "max_new_tokens": 120
+            }
+        }
+
+        gen_response = requests.post(
+            GENERATOR_URL,
+            headers=HEADERS,
+            json=gen_payload,
+            timeout=20
+        )
+        gen_response.raise_for_status()
+        gen_data = gen_response.json()
+
+        resposta = gen_data[0]["generated_text"]
 
         return {
             "categoria": categoria,
-            "resposta": content
+            "resposta": resposta
         }
 
     except Exception as e:
-        print("Erro OpenAI:", e)
+        print("Erro Hugging Face:", e)
+
+       
         return {
             "categoria": "Improdutivo",
-            "resposta": "Recebemos seu email e em breve retornaremos."
+            "resposta": (
+                "Agradecemos sua mensagem. "
+                "Caso precise de algo mais, ficamos à disposição."
+            )
         }
