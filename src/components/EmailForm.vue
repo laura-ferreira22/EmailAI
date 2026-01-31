@@ -118,5 +118,13 @@ const submitEmail = async () => {
       </section>
     </div>
   </div>
+
+      <script setup>
+    import { ref } from "vue";
+
+    console.log("API URL:", import.meta.env.VITE_API_URL);
+
+
+    </script>
 </template>
 

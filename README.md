@@ -193,6 +193,15 @@ Obrigado pelo excelente atendimento!
 ```
 
 ---
+## 🔗 Acesso à Aplicação
+
+O frontend da aplicação está disponível online via **Vercel**:
+
+🌐 **EmailIA – Aplicação Web**  
+👉 https://email-ai-fawn.vercel.app/
+
+> ⚠️ Observação: a aplicação depende do backend hospedado no Render. Em casos de inatividade prolongada, o primeiro acesso pode levar alguns segundos até o serviço iniciar.
+
 
 ## 👩‍💻 Autoria
 
